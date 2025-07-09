@@ -8,4 +8,9 @@ export interface Task {
    * 2 – high, 1 – medium, 0 – low
    */
   priority: number;
+  /**
+   * Optional due date for the task in YYYY-MM-DD format.
+   * When set, the task will appear in the calendar view.
+   */
+  dueDate?: string;
 } 
