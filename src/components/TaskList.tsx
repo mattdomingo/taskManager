@@ -19,11 +19,16 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
 
   if (unscheduledTasks.length === 0) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6 border-2 border-gray-200">
-        <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-          <span className="w-3 h-3 bg-gray-400 rounded-full mr-2"></span>
-          Unscheduled Tasks
-        </h2>
+      <div className="apple-card-elevated p-12">
+        <div className="flex items-center justify-between mb-10">
+          <h2 className="apple-text-elegant text-3xl font-semibold text-gray-900">
+            Tasks
+          </h2>
+          <div className="flex items-center gap-3">
+            <div className="w-4 h-4 bg-gray-400 rounded-full"></div>
+            <span className="text-base font-medium text-gray-500">Unscheduled</span>
+          </div>
+        </div>
         
         <Droppable droppableId="task-list">
           {(provided, snapshot) => (
@@ -31,10 +36,10 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
               ref={provided.innerRef}
               {...provided.droppableProps}
               className={`
-                min-h-[200px] p-4 rounded-lg border-2 border-dashed transition-all duration-200 relative
+                min-h-[400px] p-12 rounded-3xl border-2 border-dashed transition-all duration-300 relative
                 ${snapshot.isDraggingOver 
-                  ? 'border-blue-400 bg-gradient-to-br from-blue-100 to-blue-200 scale-[1.02] shadow-lg' 
-                  : 'border-gray-300 bg-gray-50'
+                  ? 'border-blue-400 bg-gradient-to-br from-blue-50 to-blue-100 scale-[1.01] shadow-lg' 
+                  : 'border-gray-300 bg-gray-50/50'
                 }
               `}
               style={{
@@ -45,17 +50,17 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
             >
               {/* Drop zone indicator for empty state */}
               {snapshot.isDraggingOver ? (
-                <div className="absolute top-4 left-1/2 transform -translate-x-1/2 pointer-events-none z-10">
-                  <div className="bg-blue-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse">
+                <div className="absolute top-8 left-1/2 transform -translate-x-1/2 pointer-events-none z-10">
+                  <div className="apple-button px-8 py-4 text-base font-semibold animate-pulse">
                     Drop here to unschedule
                   </div>
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center h-full text-gray-500 text-center pointer-events-none">
-                  <div className="text-2xl mb-2">📝</div>
-                  <p className="text-sm leading-relaxed">
-                    No unscheduled tasks.<br />
-                    Add a new task above or drag scheduled tasks here to unschedule them!
+                  <div className="text-6xl mb-8">📝</div>
+                  <h3 className="apple-text-elegant text-2xl font-semibold text-gray-700 mb-4">No unscheduled tasks</h3>
+                  <p className="apple-text-clean text-base leading-relaxed max-w-md">
+                    Add a new task above or drag scheduled tasks here to unschedule them
                   </p>
                 </div>
               )}
@@ -68,14 +73,21 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-6 border-2 border-gray-200">
-      <h2 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-        <span className="w-3 h-3 bg-green-500 rounded-full mr-2"></span>
-        Unscheduled Tasks
-        <span className="ml-auto text-sm font-normal text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
-          {unscheduledTasks.length}
-        </span>
-      </h2>
+    <div className="apple-card-elevated p-12">
+      <div className="flex items-center justify-between mb-10">
+        <h2 className="apple-text-elegant text-3xl font-semibold text-gray-900">
+          Tasks
+        </h2>
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-3">
+            <div className="w-4 h-4 bg-green-500 rounded-full"></div>
+            <span className="text-base font-medium text-gray-500">Unscheduled</span>
+          </div>
+          <span className="bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-base font-semibold">
+            {unscheduledTasks.length}
+          </span>
+        </div>
+      </div>
       
       <Droppable droppableId="task-list">
         {(provided, snapshot) => (
@@ -83,10 +95,10 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
             ref={provided.innerRef}
             {...provided.droppableProps}
             className={`
-              space-y-2 min-h-[200px] p-3 rounded-lg border-2 border-dashed transition-all duration-200 relative
+              space-y-4 min-h-[400px] p-8 rounded-3xl border-2 border-dashed transition-all duration-300 relative
               ${snapshot.isDraggingOver 
-                ? 'border-blue-400 bg-gradient-to-br from-blue-100 to-blue-200 scale-[1.01] shadow-lg' 
-                : 'border-gray-300 bg-gray-50/50 hover:bg-gray-50'
+                ? 'border-blue-400 bg-gradient-to-br from-blue-50 to-blue-100 scale-[1.005] shadow-lg' 
+                : 'border-gray-300 bg-gray-50/30 hover:bg-gray-50/50'
               }
             `}
             style={{
@@ -96,7 +108,7 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
             }}
           >
             {/* Task list with slight opacity when dragging over */}
-            <div className={`space-y-2 ${snapshot.isDraggingOver ? 'opacity-70' : ''}`}>
+            <ul className={`space-y-4 ${snapshot.isDraggingOver ? 'opacity-70' : ''}`}>
               {unscheduledTasks.map((task, index) => (
                 <TaskItem
                   key={task.id}
@@ -106,12 +118,12 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
                   index={index}
                 />
               ))}
-            </div>
+            </ul>
             
             {/* Drop zone indicator overlay */}
             {snapshot.isDraggingOver && (
-              <div className="absolute top-2 right-2 z-10 pointer-events-none">
-                <div className="bg-blue-500 text-white px-3 py-1 rounded-full text-xs font-semibold shadow-lg animate-bounce">
+              <div className="absolute top-6 right-6 z-10 pointer-events-none">
+                <div className="apple-button px-6 py-3 text-sm font-semibold animate-bounce">
                   Drop to unschedule
                 </div>
               </div>
@@ -123,8 +135,10 @@ export function TaskList({ tasks, onToggle, onDelete }: TaskListProps) {
       </Droppable>
       
       {/* Helpful hint */}
-      <div className="mt-3 text-xs text-gray-500 text-center">
-        💡 Drag tasks to calendar days to schedule them
+      <div className="mt-10 text-center">
+        <p className="apple-text-clean text-base text-gray-500 font-medium">
+          💡 Drag tasks to calendar days to schedule them
+        </p>
       </div>
     </div>
   )

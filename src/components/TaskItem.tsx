@@ -23,31 +23,49 @@ export function TaskItem({
   isInCalendar = false, 
   index 
 }: TaskItemProps) {
+  // Priority badge component
+  const PriorityBadge = ({ priority }: { priority: number }) => {
+    const colors = {
+      2: 'bg-red-100 text-red-800',
+      1: 'bg-yellow-100 text-yellow-800', 
+      0: 'bg-gray-100 text-gray-600'
+    };
+    const labels = { 2: 'High', 1: 'Medium', 0: 'Low' };
+    
+    return (
+      <span className={`px-3 py-1.5 text-sm font-medium rounded-full ${colors[priority as keyof typeof colors]}`}>
+        {labels[priority as keyof typeof labels]}
+      </span>
+    );
+  };
+
   // Calendar tasks are not draggable and have compact styling
   if (isInCalendar) {
     return (
-      <div className="flex items-center gap-2 p-2 border border-gray-200 rounded bg-gray-50">
-        <input
-          type="checkbox"
-          checked={task.completed}
-          onChange={() => onToggle(task.id)}
-          className="w-3 h-3 text-blue-600 rounded focus:ring-blue-500 flex-shrink-0"
-        />
-        <span 
-          className={`text-xs flex-1 truncate ${
-            task.completed ? 'line-through text-gray-500' : 'text-gray-900'
-          }`}
-          title={task.text}
-        >
-          {task.text}
-        </span>
-        <button
-          onClick={() => onDelete(task.id)}
-          className="w-4 h-4 text-red-500 hover:text-red-700 focus:outline-none flex-shrink-0"
-          aria-label="Delete task"
-        >
-          ×
-        </button>
+      <div className="apple-card p-4 mb-3 transition-all duration-200 hover:shadow-md">
+        <div className="flex items-center gap-4">
+          <input
+            type="checkbox"
+            checked={task.completed}
+            onChange={() => onToggle(task.id)}
+            className="apple-checkbox"
+          />
+          <span 
+            className={`apple-text-clean text-sm flex-1 font-medium ${
+              task.completed ? 'line-through text-gray-500' : 'text-gray-900'
+            }`}
+            title={task.text}
+          >
+            {task.text}
+          </span>
+          <button
+            onClick={() => onDelete(task.id)}
+            className="apple-delete-button"
+            aria-label="Delete task"
+          >
+            ×
+          </button>
+        </div>
       </div>
     )
   }
@@ -66,16 +84,16 @@ export function TaskItem({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '60px',
-            height: '60px',
-            padding: '8px',
-            fontSize: '12px',
+            width: '100px',
+            height: '100px',
+            padding: '16px',
+            fontSize: '14px',
             fontWeight: 'bold',
-            color: '#1d4ed8',
+            color: 'rgb(var(--apple-blue))',
             textAlign: 'center',
             lineHeight: '1.2',
             // Append our transforms to the library's transforms
-            transform: `${provided.draggableProps.style?.transform || ''} scale(0.75) rotate(2deg)`,
+            transform: `${provided.draggableProps.style?.transform || ''} scale(0.8) rotate(2deg)`,
           })
         };
 
@@ -85,10 +103,10 @@ export function TaskItem({
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             className={`
-              transition-all duration-200 cursor-grab active:cursor-grabbing
+              transition-all duration-300 cursor-grab active:cursor-grabbing
               ${snapshot.isDragging 
-                ? 'opacity-90 bg-blue-100 border-blue-300 shadow-2xl rounded-full z-50' 
-                : 'flex items-center gap-3 p-3 border border-gray-200 rounded-md bg-white hover:bg-gray-50 hover:shadow-md'
+                ? 'opacity-90 bg-white/95 border-blue-300 shadow-2xl rounded-full z-50 backdrop-blur-sm' 
+                : 'apple-card p-8 hover:shadow-lg hover:-translate-y-0.5'
               }
             `}
             style={style}
@@ -101,28 +119,33 @@ export function TaskItem({
               </div>
             ) : (
               // Normal task layout when not dragging
-              <>
+              <div className="flex items-center gap-6">
                 <input
                   type="checkbox"
                   checked={task.completed}
                   onChange={() => onToggle(task.id)}
-                  className="w-4 h-4 text-blue-600 rounded focus:ring-blue-500"
+                  className="apple-checkbox"
                 />
-                <span 
-                  className={`flex-1 ${
-                    task.completed ? 'line-through text-gray-500' : 'text-gray-900'
-                  }`}
-                >
-                  {task.text}
-                </span>
+                <div className="flex-1 min-w-0">
+                  <span 
+                    className={`apple-text-clean block text-lg font-medium ${
+                      task.completed ? 'line-through text-gray-500' : 'text-gray-900'
+                    }`}
+                  >
+                    {task.text}
+                  </span>
+                  <div className="flex items-center gap-3 mt-3">
+                    <PriorityBadge priority={task.priority} />
+                  </div>
+                </div>
                 <button
                   onClick={() => onDelete(task.id)}
-                  className="w-6 h-6 text-red-500 hover:text-red-700 focus:outline-none"
+                  className="apple-delete-button"
                   aria-label="Delete task"
                 >
                   ×
                 </button>
-              </>
+              </div>
             )}
           </li>
         )

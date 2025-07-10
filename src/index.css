@@ -1,3 +1,183 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  :root {
+    /* Apple-inspired color palette */
+    --apple-blue: 0 122 255;
+    --apple-gray-50: 249 249 251;
+    --apple-gray-100: 242 242 247;
+    --apple-gray-200: 229 229 234;
+    --apple-gray-300: 199 199 204;
+    --apple-gray-400: 142 142 147;
+    --apple-gray-500: 123 123 128;
+    --apple-gray-600: 99 99 102;
+    --apple-gray-700: 72 72 74;
+    --apple-gray-800: 44 44 46;
+    --apple-gray-900: 28 28 30;
+    
+    /* Custom shadows */
+    --apple-shadow-sm: 0 1px 3px 0 rgba(0, 0, 0, 0.05), 0 1px 2px 0 rgba(0, 0, 0, 0.03);
+    --apple-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.08), 0 3px 6px 0 rgba(0, 0, 0, 0.04);
+    --apple-shadow-lg: 0 12px 40px 0 rgba(0, 0, 0, 0.12), 0 6px 12px 0 rgba(0, 0, 0, 0.06);
+    --apple-shadow-xl: 0 24px 64px 0 rgba(0, 0, 0, 0.15), 0 12px 24px 0 rgba(0, 0, 0, 0.08);
+  }
+
+  body {
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue', Arial, sans-serif;
+    font-feature-settings: 'cv11', 'ss01';
+    font-variation-settings: 'slnt' 0;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: linear-gradient(135deg, rgb(var(--apple-gray-50)) 0%, rgb(var(--apple-gray-100)) 100%);
+    line-height: 1.6;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Playfair Display', 'Inter', -apple-system, BlinkMacSystemFont, serif;
+    font-weight: 600;
+    letter-spacing: -0.025em;
+  }
+
+  /* Custom scrollbar for webkit browsers */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(var(--apple-gray-400), 0.5);
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(var(--apple-gray-500), 0.7);
+  }
+}
+
+@layer components {
+  .apple-card {
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: var(--apple-shadow);
+    border-radius: 24px;
+  }
+
+  .apple-card-elevated {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    box-shadow: var(--apple-shadow-lg);
+    border-radius: 28px;
+  }
+
+  .apple-button {
+    background: linear-gradient(135deg, rgb(var(--apple-blue)) 0%, rgba(var(--apple-blue), 0.9) 100%);
+    color: white;
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    border-radius: 16px;
+    border: none;
+    box-shadow: 0 3px 12px rgba(var(--apple-blue), 0.3);
+    transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+    letter-spacing: 0.01em;
+  }
+
+  .apple-button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(var(--apple-blue), 0.4);
+  }
+
+  .apple-button:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 12px rgba(var(--apple-blue), 0.3);
+  }
+
+  .apple-input {
+    background: rgba(255, 255, 255, 0.9);
+    backdrop-filter: blur(20px);
+    border: 1px solid rgba(var(--apple-gray-300), 0.5);
+    border-radius: 16px;
+    color: rgb(var(--apple-gray-900));
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    transition: all 0.25s ease;
+    box-shadow: var(--apple-shadow-sm);
+    letter-spacing: 0.01em;
+  }
+
+  .apple-input:focus {
+    outline: none;
+    border-color: rgba(var(--apple-blue), 0.6);
+    box-shadow: 0 0 0 4px rgba(var(--apple-blue), 0.1), var(--apple-shadow);
+  }
+
+  .apple-input::placeholder {
+    color: rgba(var(--apple-gray-500), 0.8);
+    font-weight: 400;
+  }
+
+  .apple-checkbox {
+    appearance: none;
+    background: rgba(255, 255, 255, 0.9);
+    border: 2px solid rgba(var(--apple-gray-300), 0.6);
+    border-radius: 8px;
+    width: 24px;
+    height: 24px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+
+  .apple-checkbox:checked {
+    background: linear-gradient(135deg, rgb(var(--apple-blue)) 0%, rgba(var(--apple-blue), 0.9) 100%);
+    border-color: rgb(var(--apple-blue));
+  }
+
+  .apple-checkbox:checked::after {
+    content: '✓';
+    color: white;
+    font-size: 14px;
+    font-weight: bold;
+  }
+
+  .apple-delete-button {
+    background: rgba(255, 59, 48, 0.1);
+    color: rgb(255, 59, 48);
+    border: none;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    transition: all 0.25s ease;
+    cursor: pointer;
+  }
+
+  .apple-delete-button:hover {
+    background: rgba(255, 59, 48, 0.2);
+    transform: scale(1.1);
+  }
+
+  .apple-text-elegant {
+    font-family: 'Playfair Display', serif;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+  }
+
+  .apple-text-clean {
+    font-family: 'Inter', sans-serif;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+  }
+}

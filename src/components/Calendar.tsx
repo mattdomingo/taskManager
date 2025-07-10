@@ -88,16 +88,16 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            width: '48px',
-            height: '48px',
-            padding: '4px',
-            fontSize: '10px',
+            width: '80px',
+            height: '80px',
+            padding: '12px',
+            fontSize: '12px',
             fontWeight: 'bold',
-            color: '#dc2626',
+            color: 'rgb(255, 59, 48)',
             textAlign: 'center',
             lineHeight: '1.1',
             // Append our transforms to the library's transforms
-            transform: `${provided.draggableProps.style?.transform || ''} scale(0.75) rotate(1deg)`,
+            transform: `${provided.draggableProps.style?.transform || ''} scale(0.8) rotate(1deg)`,
           })
         };
 
@@ -107,10 +107,10 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
             {...provided.draggableProps}
             {...provided.dragHandleProps}
             className={`
-              transition-all duration-200 cursor-grab active:cursor-grabbing
+              transition-all duration-300 cursor-grab active:cursor-grabbing
               ${snapshot.isDragging 
-                ? 'opacity-90 bg-red-100 border-red-300 shadow-2xl rounded-full z-50' 
-                : 'flex items-center gap-2 p-2 border border-gray-200 rounded bg-gray-50 hover:bg-gray-100 hover:shadow-sm'
+                ? 'opacity-90 bg-red-50/95 border-red-300 shadow-2xl rounded-full z-50 backdrop-blur-sm' 
+                : 'apple-card p-4 hover:shadow-md hover:-translate-y-0.5 mb-3'
               }
             `}
             style={style}
@@ -123,15 +123,15 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
               </div>
             ) : (
               // Normal calendar task layout
-              <>
+              <div className="flex items-center gap-3">
                 <input
                   type="checkbox"
                   checked={task.completed}
                   onChange={() => onToggle(task.id)}
-                  className="w-3 h-3 text-blue-600 rounded focus:ring-blue-500 flex-shrink-0"
+                  className="apple-checkbox"
                 />
                 <span 
-                  className={`text-xs flex-1 truncate ${
+                  className={`apple-text-clean text-sm flex-1 font-medium truncate ${
                     task.completed ? 'line-through text-gray-500' : 'text-gray-900'
                   }`}
                   title={task.text}
@@ -140,12 +140,12 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
                 </span>
                 <button
                   onClick={() => onDelete(task.id)}
-                  className="w-4 h-4 text-red-500 hover:text-red-700 focus:outline-none flex-shrink-0"
+                  className="apple-delete-button"
                   aria-label="Delete task"
                 >
                   ×
                 </button>
-              </>
+              </div>
             )}
           </div>
         )
@@ -154,31 +154,40 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
   )
 
   return (
-    <div className="bg-white rounded-lg shadow-md p-4">
-      <h2 className="text-xl font-semibold text-gray-900 mb-4 text-center">
-        Calendar
-      </h2>
+    <div className="apple-card-elevated p-12">
+      <div className="text-center mb-12">
+        <h2 className="apple-text-elegant text-3xl font-semibold text-gray-900 mb-4">
+          Calendar
+        </h2>
+        <p className="text-base text-gray-600 font-medium">
+          {new Date().toLocaleDateString('en-US', { 
+            month: 'long', 
+            day: 'numeric', 
+            year: 'numeric' 
+          })}
+        </p>
+      </div>
       
-      <div className="grid grid-cols-7 gap-2">
+      <div className="grid grid-cols-7 gap-6">
         {weekDates.map((date) => {
           const dateString = formatDateString(date)
           const dayTasks = tasksByDate[dateString] || []
           const todayFlag = isToday(date)
           
           return (
-            <div key={dateString} className={`border-2 rounded-lg ${
-              todayFlag ? 'border-blue-300 bg-blue-50' : 'border-gray-200 bg-white'
+            <div key={dateString} className={`apple-card overflow-hidden ${
+              todayFlag ? 'ring-2 ring-blue-400 ring-opacity-50' : ''
             }`}>
               {/* Day header */}
-              <div className={`p-2 text-center border-b-2 ${
+              <div className={`p-6 text-center border-b ${
                 todayFlag 
-                  ? 'bg-blue-100 border-blue-200 text-blue-900' 
-                  : 'bg-gray-50 border-gray-200 text-gray-900'
+                  ? 'bg-gradient-to-br from-blue-50 to-blue-100 border-blue-200' 
+                  : 'bg-gray-50/50 border-gray-200'
               }`}>
-                <div className={`text-sm font-medium ${todayFlag ? 'font-bold' : ''}`}>
+                <div className={`text-base font-semibold ${todayFlag ? 'text-blue-900' : 'text-gray-900'}`}>
                   {getDayName(date)}
                 </div>
-                <div className={`text-xs ${todayFlag ? 'text-blue-700' : 'text-gray-500'}`}>
+                <div className={`text-sm font-medium mt-2 ${todayFlag ? 'text-blue-700' : 'text-gray-500'}`}>
                   {getDayMonth(date)}
                 </div>
               </div>
@@ -190,12 +199,12 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                     className={`
-                      min-h-[120px] p-2 space-y-1 transition-colors duration-200 relative
+                      min-h-[200px] p-5 space-y-3 transition-all duration-300 relative
                       ${snapshot.isDraggingOver 
-                        ? 'bg-gradient-to-br from-green-100 to-green-200 border-2 border-green-400 border-dashed shadow-lg' 
+                        ? 'bg-gradient-to-br from-green-50 to-green-100 shadow-inner' 
                         : todayFlag 
-                          ? 'bg-blue-50/50' 
-                          : 'bg-white hover:bg-gray-50'
+                          ? 'bg-blue-50/30' 
+                          : 'bg-white hover:bg-gray-50/50'
                       }
                     `}
                     style={{
@@ -205,7 +214,7 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
                     }}
                   >
                     {/* Render tasks scheduled for this day */}
-                    <div className={`space-y-1 ${snapshot.isDraggingOver ? 'opacity-50' : ''}`}>
+                    <div className={`space-y-3 ${snapshot.isDraggingOver ? 'opacity-60' : ''}`}>
                       {dayTasks.map((task, taskIndex) => (
                         <CalendarTaskItem
                           key={task.id}
@@ -217,16 +226,19 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
                     
                     {/* Empty state hint - only show when not dragging */}
                     {dayTasks.length === 0 && !snapshot.isDraggingOver && (
-                      <div className="flex items-center justify-center h-full text-gray-400 text-xs text-center leading-tight pointer-events-none">
-                        Drag tasks here
+                      <div className="flex items-center justify-center h-full text-gray-400 text-sm text-center leading-tight pointer-events-none">
+                        <div className="p-6">
+                          <div className="text-2xl mb-3">📅</div>
+                          <div className="font-medium">Drag tasks here</div>
+                        </div>
                       </div>
                     )}
                     
                     {/* Drop zone indicator - positioned to not block events */}
                     {snapshot.isDraggingOver && (
-                      <div className="absolute top-1 right-1 pointer-events-none z-10">
-                        <div className="bg-green-500 text-white px-2 py-1 rounded-full text-xs font-semibold shadow-lg animate-pulse">
-                          Drop here
+                      <div className="absolute top-3 right-3 pointer-events-none z-10">
+                        <div className="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-semibold shadow-lg animate-pulse">
+                          Schedule
                         </div>
                       </div>
                     )}
@@ -241,8 +253,10 @@ export function Calendar({ tasks, onToggle, onDelete }: CalendarProps) {
       </div>
       
       {/* Helpful hint */}
-      <div className="mt-3 text-xs text-gray-500 text-center">
-        💡 Drag tasks back to the unscheduled list to remove from calendar
+      <div className="mt-12 text-center">
+        <p className="apple-text-clean text-base text-gray-500 font-medium">
+          💡 Drag tasks back to the unscheduled list to remove from calendar
+        </p>
       </div>
     </div>
   )

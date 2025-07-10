@@ -106,23 +106,29 @@ function App() {
 
   return (
     <DragDropContext onDragEnd={handleDragEnd}>
-      <div className="min-h-screen bg-gray-50 py-8">
-        <div className="mx-auto max-w-7xl px-4">
-          <h1 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Task Manager
-          </h1>
+      <div className="min-h-screen bg-gradient-to-br from-slate-50 via-blue-50 to-indigo-50 py-16 px-8">
+        <div className="mx-auto max-w-8xl">
+          {/* Header */}
+          <div className="text-center mb-20">
+            <h1 className="apple-text-elegant text-6xl font-light text-gray-900 mb-6 tracking-tight">
+              Task Manager
+            </h1>
+            <p className="apple-text-clean text-xl text-gray-600 font-medium">
+              Organize your day with elegant simplicity
+            </p>
+          </div>
           
           {/* Add Task Form */}
-          <div className="mb-8 max-w-md mx-auto">
-            <div className="bg-white rounded-lg shadow-md p-6">
+          <div className="mb-24 max-w-2xl mx-auto">
+            <div className="apple-card-elevated p-12">
               <AddTaskForm onAdd={addTask} />
             </div>
           </div>
 
           {/* Main Content: Task List and Calendar */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 2xl:grid-cols-2 gap-16">
             {/* Task List */}
-            <div>
+            <div className="space-y-8">
               <TaskList 
                 tasks={sortedTasks}
                 onToggle={toggleTask}
@@ -131,7 +137,7 @@ function App() {
             </div>
 
             {/* Calendar */}
-            <div>
+            <div className="space-y-8">
               <Calendar
                 tasks={sortedTasks}
                 onToggle={toggleTask}
